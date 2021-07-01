@@ -61,6 +61,25 @@ fn test_decode_with_three_rails() {
 
 #[test]
 #[ignore]
+/// decode with three rails
+fn test_decode_with_three_rails0() {
+    process_decode_case("TEITELHDVLSNHDTISEIIEA0", 3, "THEDEVILISINTHEDETAILS0");
+}
+#[test]
+#[ignore]
+/// decode with three rails
+fn test_decode_with_three_rails01() {
+    process_decode_case("TEITELHDVLSNHDTIS1EIIEA0", 3, "THEDEVILISINTHEDETAILS01");
+}
+#[test]
+#[ignore]
+/// decode with three rails
+fn test_decode_with_three_rails012() {
+    process_decode_case("TEITEL2HDVLSNHDTIS1EIIEA0", 3, "THEDEVILISINTHEDETAILS012");
+}
+
+#[test]
+#[ignore]
 /// decode with five rails
 fn test_decode_with_five_rails() {
     process_decode_case("EIEXMSMESAORIWSCE", 5, "EXERCISMISAWESOME");
