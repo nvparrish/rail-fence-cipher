@@ -39,6 +39,8 @@ impl RailFence {
         let mut rails = vec![String::from(""); self.rails as usize];
         let mut start = vec![0 as usize; self.rails as usize];
         let cipher_text = String::from(cipher);
+
+        // Identify the start of each new row
         let period = 2 * (self.rails - 1);
         let cipher_length = cipher_text.chars().count();
         let section = cipher_length as u32 / period;
@@ -62,21 +64,20 @@ impl RailFence {
                 start[i] += 1;
             }
         }
-        println!("Start: {:?}", start);
+
+        // Split the data into the corresponding rows
         for (i, it) in rails.iter_mut().enumerate() {
-            println!("Eumerate: {}", i);
             if (self.rails - 1) as usize == i {
                 it.push_str(&cipher_text[start[i]..]);
             } else {
                 it.push_str(&cipher_text[start[i]..start[i+1]]);
             }
         }
+
+        // Pull off letters in the zig-zag pattern to make the decoded message
         let mut clear_text = String::from("");
         let mut f:u32 = 0;
         let mut increment:i32 = 1;
-        for it in rails.iter() {
-            println!("{}", it);
-        }
         while rails[f as usize].len() > 0 {
             let ch = rails[f as usize].remove(0);
             clear_text.push(ch);
