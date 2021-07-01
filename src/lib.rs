@@ -98,7 +98,7 @@ impl RailFence {
             return String::from(cipher)
         }
         let mut rails = vec![String::from(""); self.rails as usize];
-        let mut start = vec![0 as usize; self.rails as usize];
+        let mut start = vec![0_usize; self.rails as usize];
         let cipher_text = String::from(cipher);
 
         // Identify the start of each new row
@@ -139,7 +139,7 @@ impl RailFence {
         let mut clear_text = String::from("");
         let mut f:u32 = 0;
         let mut increment:i32 = 1;
-        while rails[f as usize].len() > 0 {
+        while !rails[f as usize].is_empty() {
             let ch = rails[f as usize].remove(0);
             clear_text.push(ch);
             if increment.is_negative() {
