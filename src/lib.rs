@@ -53,21 +53,15 @@ impl RailFence {
     /// ```
     pub fn encode(&self, text: &str) -> String {
         let mut rails = vec![String::from(""); self.rails as usize];
-        let mut f:usize = 0;
-        let mut increment:i32 = 1;
+        let mut f:usize = 0; // The rail to check
         let message = String::from(text);
-        for c in message.chars() {
+        for (i, c) in message.chars().enumerate() {
             rails[f].push(c);
-            if increment.is_negative(){
-                f -= 1;
-            } else {
-                f += 1;
-            }
-            if f == (self.rails-1) as usize {
-                increment = -1;
-            } else if f == 0 {
-                increment = 1;
-            }
+            f = match i as u32 / (self.rails - 1) % 2 {
+                0 => f + 1,
+                1 => f - 1,
+                _ => f // Won't happen because of % 2, but necessary to match all u32 cases
+            };
         };
         let mut result = String::new();
         for part in rails {
@@ -137,22 +131,35 @@ impl RailFence {
 
         // Pull off letters in the zig-zag pattern to make the decoded message
         let mut clear_text = String::from("");
-        let mut f:u32 = 0;
-        let mut increment:i32 = 1;
+        let mut f:u32 = 0; // The rail to check
+        let mut i = 0; // The letter index
         while !rails[f as usize].is_empty() {
             let ch = rails[f as usize].remove(0);
             clear_text.push(ch);
-            if increment.is_negative() {
-                f -= 1;
-            } else {
-                f += 1;
-            }
-            if f == 0 {
-                increment = 1;
-            } else if f == (self.rails - 1) {
-                increment = -1;
-            }
+            f = match i / (self.rails - 1) % 2 {
+                0 => f + 1,
+                1 => f - 1,
+                _ => f // Won't happen because of % 2, but necessary to match all u32 cases
+            };
+            i += 1;
         }
         clear_text
     }
 }
+/* Explanation of the tracking calculation:
+0     6
+ 1   5 7
+  2 4   8
+   3     9
+
+7 / 3 = 2 r 1
+2 % 2 = 0 (add)
+
+5 / 3 = 1 r 1
+1 % 2 = 1 (subtract)
+
+6 / 3 = 2 r 0
+2 % 2 = 0 (add)
+
+(index / (rails-1))%2
+ */
