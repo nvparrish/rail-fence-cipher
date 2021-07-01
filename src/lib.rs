@@ -6,10 +6,12 @@
 //! of tracks, then back up.  So for a four-track pattern, it could have the
 //! following structure:
 //!
+//! ```text
 //! R - - - - - G - - - - - - - - - - 
 //! - U - - - S - R - - - - - - - - - 
 //! - - S - I - - - E - T - - - - - - 
-//! - - - T - - - - - A - - - - - - - 
+//! - - - T - - - - - A - - - - - - -
+//! ```
 //!
 //! Then the letters are read in order on each line
 //! RGUSRSIETTA
@@ -30,6 +32,9 @@ impl RailFence {
     ///
     /// # Arguments
     /// * `rails`   The number of rails for this cipher
+    ///
+    /// # Returns
+    /// A RailFence struct for doing encoding/decoding
     pub fn new(rails: u32) -> RailFence {
         RailFence {rails}
     }
@@ -70,14 +75,14 @@ impl RailFence {
         result
     }
 
-    /// Encode the message in text using the fence rails
+    /// Decode the message in text using the fence rails
     ///
     /// # Arguments
     ///
-    /// * `text`    The clear-text string to encode
+    /// * `text`    The cipher-text string to decode
     ///
     /// # Returns
-    /// The cipher-text message
+    /// The clear-text message
     ///
     /// # Example
     /// ```
