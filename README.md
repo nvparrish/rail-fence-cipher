@@ -136,4 +136,15 @@ If you want to know more about Exercism, take a look at the [contribution guide]
 Wikipedia [https://en.wikipedia.org/wiki/Transposition_cipher#Rail_Fence_cipher](https://en.wikipedia.org/wiki/Transposition_cipher#Rail_Fence_cipher)
 
 ## Submitting Incomplete Solutions
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+It's possible to submit an incomplete solution, so you can see how others have completed the exercise.
+
+## Documenting the Code
+There is documentation in the source code.  To run the rustdoc tests, do the following:
+
+```shell
+$ rustc --crate-type lib --crate-name rail_fence_cipher src/lib.rs
+$ rustdoc --test --crate-name rail_fence_cipher src/lib.rs --extern rail_fence_cipher=libraill_fence_cipher.rlib
+```
+
+This will generate a library that can be utilized by the rust documentation, and the second line indicates how the
+example code can link to the tests in the docs.

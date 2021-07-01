@@ -1,12 +1,56 @@
+#![crate_name = "rail_fence_cipher"]
+//! A library for implementing a rail fence cipher
+//!
+//! The rail-fence cipher is based on setting a number of tracks.  To encode
+//! a message, the letters are placed on rails, one at a time, down the set
+//! of tracks, then back up.  So for a four-track pattern, it could have the
+//! following structure:
+//!
+//! R - - - - - G - - - - - - - - - - 
+//! - U - - - S - R - - - - - - - - - 
+//! - - S - I - - - E - T - - - - - - 
+//! - - - T - - - - - A - - - - - - - 
+//!
+//! Then the letters are read in order on each line
+//! RGUSRSIETTA
+//!
+//! To decode, the letters must be arranged on the rails and read in the
+//! zig-zag fence pattern again.
+
+/// Rail fence structure
+///
+/// This structure holds information pertaining to the rail fence cipher
 pub struct RailFence {
+    /// The number of rails
     rails: u32,
 }
 
 impl RailFence {
+    /// Create a new fence with the specified number of rails
+    ///
+    /// # Arguments
+    /// * `rails`   The number of rails for this cipher
     pub fn new(rails: u32) -> RailFence {
         RailFence {rails}
     }
 
+    /// Encode the message in text using the fence rails
+    ///
+    /// # Arguments
+    ///
+    /// * `text`    The clear-text string to encode
+    ///
+    /// # Returns
+    /// The cipher-text message
+    ///
+    /// # Example
+    /// ```
+    /// use rail_fence_cipher::*;
+    /// let cipher = RailFence::new(4);
+    /// let cipher_text = cipher.encode("RUSTISGREAT");
+    /// let expected = String::from("RGUSRSIETTA");
+    /// assert_eq!(expected, cipher_text)
+    /// ```
     pub fn encode(&self, text: &str) -> String {
         let mut rails = vec![String::from(""); self.rails as usize];
         let mut f:usize = 0;
@@ -32,6 +76,23 @@ impl RailFence {
         result
     }
 
+    /// Encode the message in text using the fence rails
+    ///
+    /// # Arguments
+    ///
+    /// * `text`    The clear-text string to encode
+    ///
+    /// # Returns
+    /// The cipher-text message
+    ///
+    /// # Example
+    /// ```
+    /// use rail_fence_cipher::*;
+    /// let cipher = RailFence::new(4);
+    /// let clear_text = cipher.decode("RGUSRSIETTA");
+    /// let expected = String::from("RUSTISGREAT");
+    /// assert_eq!(expected, clear_text)
+    /// ```
     pub fn decode(&self, cipher: &str) -> String {
         if self.rails == 1 {
             return String::from(cipher)
